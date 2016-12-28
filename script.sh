@@ -30,9 +30,9 @@ if ! grep "startx" .profile > /dev/null 2>&1; then
 	echo -n "Start X on login..."
 	#=========================================================
 	PROFILE_STRING=$(cat <<EOF
-	if [ ! -e "/tmp/.X0-lock" ] ; then
-	    startx
-	fi
+if [ ! -e "/tmp/.X0-lock" ] ; then
+    startx
+fi
 EOF
 )
 	echo "${PROFILE_STRING}" >> .profile
@@ -71,19 +71,32 @@ unzip chromedriver_linux64.zip
 sudo rm chromedriver_linux64.zip
 chown vagrant:vagrant chromedriver
 
+#=========================================================
+echo "Download geckodriver-v0.11.1 driver..."
+#=========================================================
+sudo rm geckodriver > /dev/null 2>&1
+wget -q https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz
+tar -xvf geckodriver-v0.11.1-linux64.tar.gz
+sudo rm geckodriver-v0.11.1-linux64.tar.gz
+chown vagrant:vagrant geckodriver
+
+
 if [ ! -f /etc/X11/Xsession.d/9999-common_start ]; then
 	#=========================================================
 	echo -n "Install tmux scripts..."
 	#=========================================================
 	TMUX_SCRIPT=$(cat <<EOF
-	#!/bin/sh
-	tmux start-server
+#!/bin/sh
+tmux start-server
 
-	tmux new-session -d -s selenium
-	tmux send-keys -t selenium:0 './chromedriver' C-m
+tmux new-session -d -s selenium
+tmux send-keys -t selenium:0 './chromedriver' C-m
 
-	tmux new-session -d -s chrome-driver
-	tmux send-keys -t chrome-driver:0 'java -jar selenium-server-standalone.jar' C-m
+tmux new-session -d -s chrome-driver
+tmux send-keys -t chrome-driver:0 'java -jar selenium-server-standalone.jar' C-m
+
+tmux new-session -d -s geckodriver
+tmux send-keys -t geckodriver:0 './geckodriver' C-m
 EOF
 )
 	echo "${TMUX_SCRIPT}"
@@ -97,9 +110,9 @@ EOF
 	echo -n "Install startup scripts..."
 	#=========================================================
 	STARTUP_SCRIPT=$(cat <<EOF
-	#!/bin/sh
-	~/tmux.sh &
-	xterm &
+#!/bin/sh
+~/tmux.sh &
+xterm &
 EOF
 )
 	echo "${STARTUP_SCRIPT}" > /etc/X11/Xsession.d/9999-common_start
