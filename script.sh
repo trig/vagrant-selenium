@@ -14,7 +14,7 @@ if ! which java > /dev/null 2>&1; then
 	sudo add-apt-repository -y ppa:webupd8team/java
 	sudo apt-get update
 	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-	sudo apt-get install -y oracle-java8-installer > /dev/null && echo 'OK'
+	sudo apt-get install -y oracle-java8-installer > /dev/null 2>&1 && echo 'OK'
 fi
 
 if ! grep "vagrant tty1" /etc/init/tty1.conf > /dev/null 2>&1; then
@@ -94,9 +94,6 @@ tmux send-keys -t selenium:0 './chromedriver' C-m
 
 tmux new-session -d -s chrome-driver
 tmux send-keys -t chrome-driver:0 'java -jar selenium-server-standalone.jar' C-m
-
-tmux new-session -d -s geckodriver
-tmux send-keys -t geckodriver:0 './geckodriver' C-m
 EOF
 )
 	echo "${TMUX_SCRIPT}"
