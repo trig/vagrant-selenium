@@ -1,0 +1,12 @@
+{
+    "name": "trig/vagrant-selenium",
+    "description": "Vagrant configuration base on ubuntu/trusty64, ready to be used with Selenium. (forked from Anomen/vagrant-selenium)",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Trig",
+            "email": "trig.github@yandex.ru"
+        }
+    ],
+    "require": {}
+}

@@ -1,5 +1,6 @@
 # vagrant-selenium
 Vagrant configuration base on ubuntu/trusty64, ready to be used with Selenium.
+(forked from Anomen/vagrant-selenium)
 
 ## Introduction
 
