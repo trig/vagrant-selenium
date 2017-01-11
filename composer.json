@@ -8,5 +8,6 @@
             "email": "trig.github@yandex.ru"
         }
     ],
-    "require": {}
+    "require": {},
+    "minimum-stability": "stable"
 }
